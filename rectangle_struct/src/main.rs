@@ -3,13 +3,14 @@ struct Rectangle {
     width: u32,
     height: u32,
 }
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
 
-fn area(rectangle: &Rectangle) -> u32 {
-    rectangle.width * rectangle.height
-}
-
-fn parimiter(rectangle: &Rectangle) -> u32 {
-    (rectangle.width  + rectangle.height) * 2
+    fn parimiter(&self) -> u32 {
+        (self.width  + self.height) * 2
+    }
 }
 
 fn main() {
@@ -17,5 +18,5 @@ fn main() {
         width: 30,
         height: 20,
     };
-    println!("area: {}, parimiter: {}",area(&rect1),parimiter(&rect1));
+    println!("area: {}, parimiter: {}",rect1.area(),rect1.parimiter());
 }
