@@ -35,6 +35,8 @@ fn second_word(s: &str) -> &str {
             }
         }
     }
-
+    if crossed_boundry {
+        return &s[i1..];
+    }
     &s[..]
 }
