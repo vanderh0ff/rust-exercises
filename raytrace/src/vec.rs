@@ -115,3 +115,119 @@ impl Vec3 {
         format !"{} {} {}", ir, ig, ib)
     }
 }
+
+impl Display for Vec3 {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "({}, {}, {})", self[0], self[1], self[2])
+    }
+}
+
+impl Index<usize> for Vec3 {
+    type Output = f64;
+
+    fn index(&size, index: usize) -> &f64 {
+        &self.e[index]
+    }
+}
+
+impl IndexMut<usize> for Vec3{
+    fn index_mut(&mut self, index: usize) -> &mut f64 {
+        &mut self.e[index]
+    }
+}
+
+impl Add for Vec3 {
+    type Output = Vec3;
+
+    fn add(self, other: Vec3) -> Vec3 {
+        e: [self[0] + other[0],self[1] + other[1],self[2] + other[2]]
+
+    }
+}
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, other: Vec3) -> () {
+        *self = Vec3 {
+            e: [self[0] + other[0],self[1] + other[1],self[2] + other[2]]
+        };
+    }
+}
+
+impl Sub for Vec3 {
+    type Output = Vec3;
+
+    fn sub(self, other: Vec3) -> Vec3 {
+        e: [self[0] - other[0],self[1] - other[1],self[2] - other[2]]
+
+    }
+}
+impl SubAssign for Vec3 {
+    fn sub_assign(&mut self, other: Vec3) -> () {
+        *self = Vec3 {
+            e: [self[0] - other[0],self[1] - other[1],self[2] - other[2]]
+        };
+    }
+}
+
+impl Mul<f64> for Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, other: f64) -> Vec3 {
+        Vec3 {
+            e: [self[0] * other, self[1] * other, self[2] * other]
+        }
+    }
+}
+
+impl MulAssign<f64> for Vec3 {
+    fn mul_assign(&mut self, other: f64) -> () {
+        *self = Vec3 {
+            e: [self[0] * other, self[1] * other, self[2] * other]
+        };
+    }
+}
+
+impl Mul<Vec3> for Vec3 {
+    type Output = Vec3;
+
+    fn mul(self, other: Vec3) -> Vec3 {
+        Vec3 {
+            e: [self[0] * other[0], self[1] * other[1], self[2] * other[2]]
+        }
+    }
+}
+
+impl MulAssign<Vec3> for Vec3 {
+    fn mul_assign(&mut self, other: Vec3) -> () {
+        *self = Vec3 {
+            e: [self[0] * other[0], self[1] * other[1], self[2] * other[2]]
+        };
+    }
+}
+
+impl Mul<Vec3> for f64 {
+    type Output = Vec3;
+
+    fn mul(self, other: Vec3) -> Vec3 {
+        Vec3 {
+            e: [self * other[0], self * other[1], self * other[2]]
+        }
+    }
+}
+
+impl Div<f64> for Vec3 {
+    type Output = Vec3;
+
+    fn div(self, other: f64) -> Vec3 {
+        Vec3 {
+            e: [self[0] / other, self[1] / other, self[2] / other]
+        }
+    }
+}
+
+impl DivAssign<f64> for Vec3 {
+    fn div_assign(&mut self, other: f64) -> () {
+        *self = Vec3 {
+            e: [self[0] / other, self[1] / other, self[2] / other]
+        };
+    }
+}
