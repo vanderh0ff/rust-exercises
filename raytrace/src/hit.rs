@@ -52,3 +52,7 @@ impl Hit for World {
         tmp_rec
     }
 }
+
+pub trait Hit : Send + Sync {
+    fn hit(&self, r: &Ray, t_min: f64, t_max: f64) -> Option<HitRecord>;
+}
