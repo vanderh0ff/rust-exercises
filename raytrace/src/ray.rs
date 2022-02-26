@@ -9,7 +9,7 @@ impl Ray {
     pub fn new(origin: Point3, direction: Vec3) -> Ray {
         Ray{
             orig: origin,
-            dir: direcction
+            dir: direction
         }
     }
 

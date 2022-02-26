@@ -1,4 +1,4 @@
-use rnd::{Rng};
+use rand::Rng;
 
 use super::vec::{Vec3, Color};
 use super::ray::Ray;
@@ -25,7 +25,7 @@ impl Lambertian {
 
 impl Scatter for Lambertian {
     fn scatter(&self, _r_in: &Ray, rec: &HitRecord) -> Option<(Color, Ray)> {
-        let mut scantter_direction = rec.normal + Vec3::Random_in_unit_sphere().normalize();
+        let mut scatter_direction = rec.normal + Vec3::random_in_unit_sphere().normalized();
         if scatter_direction.near_zero() {
             scatter_direction = rec.normal;
         }

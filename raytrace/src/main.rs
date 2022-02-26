@@ -22,7 +22,7 @@ fn random_scene() -> World {
     let mut world = World::new();
 
     let ground_mat = Arc::new(Lambertian::new(Color::new(0.5, 0.5, 0.5)));
-    let ground_sphere = Sphere::new(Point3::new(0.0, -1000.0, 0.0), ground_mat);
+    let ground_sphere = Sphere::new(Point3::new(0.0, -1000.0, 0.0), 1000.0, ground_mat);
 
     world.push(Box::new(ground_sphere));
 
@@ -43,7 +43,7 @@ fn random_scene() -> World {
             } else {
                 let albedo = Color::random(0.4..1.0);
                 let fuzz = rng.gen_range(0.0..0.5);
-                let sphere_mat = Arc::new(Metal::new(alvedo, fuzz));
+                let sphere_mat = Arc::new(Metal::new(albedo, fuzz));
                 let sphere = Sphere::new(center, 0.2, sphere_mat);
                 
                 world.push(Box::new(sphere));
@@ -69,7 +69,7 @@ fn ray_color (r: &Ray, world: &World, depth: u64) -> Color {
             Color::new(0.0, 0.0, 0.0)
         }
     } else {
-        let unit_direction = r.direction().normailzed();
+        let unit_direction = r.direction().normalized();
         let t = 0.5 * (unit_direction.y() + 1.0);
         (1.0 - t) * Color::new(1.0, 1.0, 1.0) + t * Color::new(0.5, 0.7, 1.0)
     }
@@ -92,6 +92,7 @@ fn main() -> () {
 
     let cam = Camera::new(lookfrom,
                           lookat,
+                          vup,
                           20.0,
                           ASPECT_RATIO,
                           aperture,
@@ -100,8 +101,26 @@ fn main() -> () {
     for j in (0..IMAGE_HEIGHT).rev() {
         eprintln!("Scanlines remainint: {}", j + 1);
         // look at this par iter and the map syntax
-        let scanline: Vec<Color> = (0..IMAGE_WIDTH).into_par_iter().map|i| {
+        let scanline: Vec<Color> = (0..IMAGE_WIDTH).into_par_iter().map(|i| {
+            let mut pixel_color = Color::new(0.0,0.0,0.0);
+            for _ in 0..SAMPLES_PER_PIXEL {
+                let mut rng = rand::thread_rng();
+                let random_u: f64 = rng.gen();
+                let random_v: f64 = rng.gen();
+
+                let u = ((i as f64) + random_u) / ((IMAGE_WIDTH - 1) as f64);
+                let v = ((j as f64) + random_v) / ((IMAGE_WIDTH - 1) as f64);
+
+                let r = cam.get_ray(u, v);
+                pixel_color += ray_color(&r, &world, MAX_DEPTH);
+            }
+        pixel_color
+        }).collect();
+        
+        for pixel_color in scanline {
+            println!("{}", pixel_color.format_color(SAMPLES_PER_PIXEL));
         }
     }
+    eprintln!("Done");
 
 }
