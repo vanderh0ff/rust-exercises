@@ -13,7 +13,6 @@ use super::hit::{Hit, HitRecord};
 use super::material::Scatter;
 
 pub struct Sphere {
-    pub fn new(cen: P
     center: Point3,
     radius: f64,
     mat: Arc<dyn Scatter> 
@@ -50,9 +49,9 @@ impl Hit for Sphere {
         let mut rec = HitRecord {
             t: root,
             p: r.at(root),
-            mat: self.mat.clone();
+            mat: self.mat.clone(),
             normal: Vec3::new(0.0,0.0,0.0),
-            front_face = false
+            front_face: false
         };
 
         let outward_normal = (rec.p - self.center) / self.radius;
