@@ -97,6 +97,9 @@ fn main() -> () {
                           ASPECT_RATIO,
                           aperture,
                           dist_to_focus);
+    println!("P3");
+    println!("{} {}", IMAGE_WIDTH, IMAGE_HEIGHT);
+    println!("255");
 
     for j in (0..IMAGE_HEIGHT).rev() {
         eprintln!("Scanlines remainint: {}", j + 1);
